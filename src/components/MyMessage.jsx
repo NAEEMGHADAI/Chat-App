@@ -1,15 +1,15 @@
 const MyMessage = ({ message }) => {
-	if (message?.attachment?.length > 0) {
+	if (message.attachments && message.attachments.length > 0) {
 		return (
 			<img
-				src={message.attachment[0].file}
+				src={message.attachments[0].file}
 				alt="message-attachment"
 				className="message-image"
 				style={{ float: "right" }}
 			/>
 		);
 	}
-	const result = message.text.replace("<p>", " ").replace("</p>", " ");
+
 	return (
 		<div
 			className="message"
@@ -20,7 +20,7 @@ const MyMessage = ({ message }) => {
 				backgroundColor: "#3B2A50",
 			}}
 		>
-			{result}
+			{message.text}
 		</div>
 	);
 };
