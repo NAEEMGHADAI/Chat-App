@@ -7,12 +7,14 @@ const TheirMessage = ({ lastMessage, message }) => {
 			{isFirstMessageByUser && (
 				<div
 					className="message-avatar"
-					style={{ backgroundImage: `url(${message?.sender?.avatar})` }}
+					style={{
+						backgroundImage: message.sender && `url(${message.sender.avatar})`,
+					}}
 				/>
 			)}
-			{message?.attachment?.length > 0 ? (
+			{message.attachments && message.attachments.length > 0 ? (
 				<img
-					src={message.attachment[0].file}
+					src={message.attachments[0].file}
 					alt="message-attachment"
 					className="message-image"
 					style={{ marginLeft: isFirstMessageByUser ? "4px" : "48px" }}
@@ -22,8 +24,8 @@ const TheirMessage = ({ lastMessage, message }) => {
 					className="message"
 					style={{
 						float: "left",
-						marginLeft: isFirstMessageByUser ? "4px" : "48px",
 						backgroundColor: "#CABCDC",
+						marginLeft: isFirstMessageByUser ? "4px" : "48px",
 					}}
 				>
 					{message.text}
@@ -32,4 +34,5 @@ const TheirMessage = ({ lastMessage, message }) => {
 		</div>
 	);
 };
+
 export default TheirMessage;

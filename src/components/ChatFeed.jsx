@@ -6,17 +6,27 @@ const ChatFeed = (props) => {
 	// console.log("props: ", props);
 	const { chats, activeChat, userName, messages } = props;
 	const chat = chats && chats[activeChat];
+	const renderReadReceipts = (message, isMyMessage) => {
+		return chat.people.map((person, index) => {
+			return (
+				person.last_read === message.id && (
+					<div
+						key={`read_${index}`}
+						className={`read-receipt`}
+						style={{
+							float: isMyMessage ? "right" : "left",
+							backgroundImage: `url(${person?.person?.avatar})`,
+						}}
+					/>
+				)
+			);
+		});
+	};
 
 	const renderMesseges = () => {
 		const keys = Object.keys(messages);
 		return keys.map((key, index) => {
 			const message = messages[key];
-
-			// if (message.userName === userName) {
-			// 	return <MyMessage key={index} message={message} />;
-			// } else {
-			// 	return <TheirMessage key={index} message={message} />;
-			// }
 
 			const lastMessageKey = index === 0 ? null : messages[keys[index - 1]];
 			const isMyMessage = message.sender.username === userName;
@@ -39,7 +49,7 @@ const ChatFeed = (props) => {
 							marginLeft: isMyMessage ? "0px" : "68px",
 						}}
 					>
-						read-receipts
+						{renderReadReceipts(message, isMyMessage)}
 					</div>
 				</div>
 			);
@@ -55,7 +65,9 @@ const ChatFeed = (props) => {
 			<div className="chat-title-container">
 				<div className="chat-title">{chat?.title}</div>
 				<div className="chat-subtitle">
-					{chat.people.map((person) => `${person.person.username}`)}
+					{chat.people.map((person) =>
+						`${person.person.username} `.split(" /")
+					)}
 				</div>
 			</div>
 			{renderMesseges()}
