@@ -56,14 +56,40 @@ const ChatFeed = (props) => {
 		});
 	};
 
+	const logOut = () => {
+		localStorage.clear();
+		window.location.reload();
+	};
+
 	if (!chat) {
-		return <div>Loading...</div>;
+		return (
+			<div className="lds-ellipsis">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		);
 	}
 	// console.log("chat: ", chat, userName, messages);
 	return (
 		<div className="chat-feed">
 			<div className="chat-title-container">
-				<div className="chat-title">{chat?.title}</div>
+				<div className="chat-title">
+					{chat?.title}
+					<button
+						onClick={logOut}
+						style={{
+							float: "right",
+							cursor: "pointer",
+							border: "none",
+							color: "#3B2A50",
+							paddingTop: "8px",
+						}}
+					>
+						<i className="fas fa-2x fa-sign-out-alt" color="#3B2A50"></i>
+					</button>
+				</div>
 				<div className="chat-subtitle">
 					{chat.people.map((person) =>
 						`${person.person.username} `.split(" /")
